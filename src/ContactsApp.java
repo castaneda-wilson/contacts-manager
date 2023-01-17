@@ -1,8 +1,32 @@
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class ContactsApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String directory = "data";
+        String filename = "contacts.txt";
+
+        Path dataDirectory = Paths.get(directory);
+
+
+        Path dataFile = Paths.get(directory, filename);
+
+        if (Files.notExists(dataDirectory)) {
+            Files.createDirectories(dataDirectory);
+        }
+
+        if (! Files.exists(dataFile)) {
+            Files.createFile(dataFile);
+        }
+
+        Path filepath = Paths.get("data", "contacts.txt");
+
         System.out.println("1. View contacts.\n" +
                 "2. Add a new contact.\n" +
                 "3. Search a contact by name.\n" +
@@ -11,16 +35,33 @@ public class ContactsApp {
                 "Enter an option (1, 2, 3, 4 or 5): ");
         Scanner sc = new Scanner(System.in);
         int input = sc.nextInt();
-        ArrayList<String> contacts = new ArrayList<>();
-        contacts.add("Jeff");
-        System.out.println(contacts);
+        Contact jeff = new Contact("Jeff", "2101233434");
+        Contact sarah = new Contact("Sarah", "1231231233");
+        Contact joe = new Contact("Joe", "9996669966");
+        ArrayList<Contact> contacts = new ArrayList<>();
+        ArrayList<String> newContacts = new ArrayList<>();
+        newContacts.add(jeff.getName() + " | " + jeff.getPhoneNumber());
+        newContacts.add(sarah.getName() + " | " + sarah.getPhoneNumber());
+        newContacts.add(joe.getName() + " | " + joe.getPhoneNumber());
+//        System.out.println(contacts);
+        Files.write(filepath, newContacts);
+
 
         switch(input) {
             case 1:
-                System.out.println("all the contacts");
+                List<String> allContacts = Files.readAllLines(filepath);
+                for (String contact : allContacts) {
+                    System.out.println(contact);
+                }
                 break;
             case 2:
-                System.out.println("adding contact");
+                System.out.println("What is the contact's name?");
+                String contactName = sc.nextLine();
+                sc.nextLine();
+                System.out.println("What is the contact's phone number?");
+                String contactPhoneNumber = sc.nextLine();
+                newContacts.add(contactName + " | " + contactPhoneNumber);
+                Files.write(filepath, newContacts);
                 break;
             case 3:
                 System.out.println("searching...");

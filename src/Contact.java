@@ -23,5 +23,7 @@ public class Contact {
         this.phoneNumber = phoneNumber;
     }
 
+//    public static Contact[]
+
 
 }
