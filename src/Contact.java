@@ -1,9 +1,13 @@
+import java.sql.SQLOutput;
+
 public class Contact {
     private String name;
     private String phoneNumber;
 
     public Contact(String name, String phoneNumber) {
         this.name = name;
+
+        phoneNumber = "(" + phoneNumber.substring(0,3) + ")" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6);
         this.phoneNumber = phoneNumber;
     }
 
@@ -30,6 +34,8 @@ public class Contact {
                 "4. Delete an existing contact.\n" +
                 "5. Exit.\n" +
                 "Enter an option (1, 2, 3, 4 or 5): ");
+
+
     }
 
 //    public static Contact[]

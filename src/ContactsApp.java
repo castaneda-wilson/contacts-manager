@@ -28,16 +28,6 @@ public class ContactsApp {
 
         Path filepath = Paths.get("data", "contacts.txt");
         Scanner sc = new Scanner(System.in);
-        Contact jeff = new Contact("Jeff", "2101233434");
-        Contact sarah = new Contact("Sarah", "1231231233");
-        Contact joe = new Contact("Joe", "9996669966");
-        ArrayList<Contact> contacts = new ArrayList<>();
-        ArrayList<String> newContacts = new ArrayList<>();
-        newContacts.add(jeff.getName() + " | " + jeff.getPhoneNumber());
-        newContacts.add(sarah.getName() + " | " + sarah.getPhoneNumber());
-        newContacts.add(joe.getName() + " | " + joe.getPhoneNumber());
-//        System.out.println(contacts);
-//        Files.write(filepath, newContacts);
         boolean response = true;
 
         while(response) {
@@ -47,6 +37,7 @@ public class ContactsApp {
             switch (input) {
             case 1:
                 List<String> allContacts = Files.readAllLines(filepath);
+                System.out.println("Name | Phone Number\n-------------------");
                 for (String contact : allContacts) {
                     System.out.println(contact);
                 }
@@ -63,10 +54,11 @@ public class ContactsApp {
                 System.out.println("What is the contact's name?");
                 String contactName = sc.nextLine();
                 System.out.println("What is the contact's phone number?");
-                String contactPhoneNumber = sc.nextLine();
+                String phoneNumber = sc.nextLine();
+                phoneNumber = "(" + phoneNumber.substring(0,3) + ")" + phoneNumber.substring(3,6) + "-" + phoneNumber.substring(6);
                 Files.write(
                         filepath,
-                        List.of(contactName + " | " + contactPhoneNumber),
+                        List.of(contactName + " | " + phoneNumber),
                         StandardOpenOption.APPEND
                 );
                 System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
