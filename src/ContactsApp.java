@@ -27,15 +27,7 @@ public class ContactsApp {
         }
 
         Path filepath = Paths.get("data", "contacts.txt");
-
-        System.out.println("1. View contacts.\n" +
-                "2. Add a new contact.\n" +
-                "3. Search a contact by name.\n" +
-                "4. Delete an existing contact.\n" +
-                "5. Exit.\n" +
-                "Enter an option (1, 2, 3, 4 or 5): ");
         Scanner sc = new Scanner(System.in);
-        int input = sc.nextInt();
         Contact jeff = new Contact("Jeff", "2101233434");
         Contact sarah = new Contact("Sarah", "1231231233");
         Contact joe = new Contact("Joe", "9996669966");
@@ -46,13 +38,24 @@ public class ContactsApp {
         newContacts.add(joe.getName() + " | " + joe.getPhoneNumber());
 //        System.out.println(contacts);
 //        Files.write(filepath, newContacts);
+        boolean response = true;
 
-
-        switch(input) {
+        while(response) {
+            Contact.menu();
+            int input = sc.nextInt();
+            String userInput;
+            switch (input) {
             case 1:
                 List<String> allContacts = Files.readAllLines(filepath);
                 for (String contact : allContacts) {
                     System.out.println(contact);
+                }
+                System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
+                userInput = sc.next();
+                if (userInput.equalsIgnoreCase("y") || userInput.equals("yes")) {
+                    response = true;
+                } else {
+                    response = false;
                 }
                 break;
             case 2:
@@ -66,6 +69,13 @@ public class ContactsApp {
                         List.of(contactName + " | " + contactPhoneNumber),
                         StandardOpenOption.APPEND
                 );
+                System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
+                userInput = sc.next();
+                if (userInput.equalsIgnoreCase("y") || userInput.equals("yes")) {
+                    response = true;
+                } else {
+                    response = false;
+                }
                 break;
             case 3:
                 sc.nextLine();
@@ -73,30 +83,44 @@ public class ContactsApp {
                 String searched = sc.nextLine();
                 List<String> searchContacts = Files.readAllLines(filepath);
                 for (String contact : searchContacts) {
-                    if (contact.contains(searched) || contact.toLowerCase().contains(searched)){
+                    if (contact.contains(searched) || contact.toLowerCase().contains(searched)) {
                         System.out.println("Contact is: " + contact);
                     }
                 }
+                System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
+                userInput = sc.next();
+                if (userInput.equalsIgnoreCase("y") || userInput.equals("yes")) {
+                    response = true;
+                } else {
+                    response = false;
+                }
                 break;
-
             case 4:
                 sc.nextLine();
                 System.out.println("Search contact by name or phone number to delete");
                 String deleted = sc.nextLine();
                 List<String> deletedContacts = Files.readAllLines(filepath);
                 for (String contact : deletedContacts) {
-                    if (contact.contains(deleted) || contact.toLowerCase().contains(deleted)){
+                    if (contact.contains(deleted) || contact.toLowerCase().contains(deleted)) {
                         System.out.println("Deleted contact is: " + contact);
                         deletedContacts.remove(contact);
                         break;
                     }
                 }
                 Files.write(filepath, deletedContacts);
+                System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
+                userInput = sc.next();
+                if (userInput.equalsIgnoreCase("y") || userInput.equals("yes")) {
+                    response = true;
+                } else {
+                    response = false;
+                }
                 break;
             case 5:
-                System.out.println("exiting");
+                System.out.println("Thanks for stopping by...");
+                response = false;
                 break;
         }
-
+    }
     }
 }
