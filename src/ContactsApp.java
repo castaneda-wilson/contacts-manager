@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ContactsApp {
         newContacts.add(sarah.getName() + " | " + sarah.getPhoneNumber());
         newContacts.add(joe.getName() + " | " + joe.getPhoneNumber());
 //        System.out.println(contacts);
-        Files.write(filepath, newContacts);
+//        Files.write(filepath, newContacts);
 
 
         switch(input) {
@@ -55,19 +56,42 @@ public class ContactsApp {
                 }
                 break;
             case 2:
+                sc.nextLine();
                 System.out.println("What is the contact's name?");
                 String contactName = sc.nextLine();
-                sc.nextLine();
                 System.out.println("What is the contact's phone number?");
                 String contactPhoneNumber = sc.nextLine();
-                newContacts.add(contactName + " | " + contactPhoneNumber);
-                Files.write(filepath, newContacts);
+                Files.write(
+                        filepath,
+                        List.of(contactName + " | " + contactPhoneNumber),
+                        StandardOpenOption.APPEND
+                );
                 break;
             case 3:
-                System.out.println("searching...");
+                sc.nextLine();
+                System.out.println("Search contact by name or phone number");
+                String searched = sc.nextLine();
+                List<String> searchContacts = Files.readAllLines(filepath);
+                for (String contact : searchContacts) {
+                    if (contact.contains(searched) || contact.toLowerCase().contains(searched)){
+                        System.out.println("Contact is: " + contact);
+                    }
+                }
                 break;
+
             case 4:
-                System.out.println("delete");
+                sc.nextLine();
+                System.out.println("Search contact by name or phone number to delete");
+                String deleted = sc.nextLine();
+                List<String> deletedContacts = Files.readAllLines(filepath);
+                for (String contact : deletedContacts) {
+                    if (contact.contains(deleted) || contact.toLowerCase().contains(deleted)){
+                        System.out.println("Deleted contact is: " + contact);
+                        deletedContacts.remove(contact);
+                        break;
+                    }
+                }
+                Files.write(filepath, deletedContacts);
                 break;
             case 5:
                 System.out.println("exiting");
