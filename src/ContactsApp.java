@@ -25,75 +25,66 @@ public class ContactsApp {
 
         boolean response = true;
         while(response) {
-            menu();
-            String input = sc.next();
-            String userInput;
-            switch (input) {
-                case "1" -> {
-                    List<String> allContacts = Files.readAllLines(filepath);
-                    System.out.println("Name | Phone Number\n-------------------");
-                    for (String contact : allContacts) {
-                        System.out.println(contact);
-                    }
-                    System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
-                    userInput = sc.next();
-                    response = userInput.equalsIgnoreCase("y") || userInput.equals("yes");
-                }
-                case "2" -> {
-                    sc.nextLine();
-                    System.out.println("What is the contact's name?");
-                    String contactName = sc.nextLine();
-                    System.out.println("What is the contact's phone number?");
-                    String phoneNumber = sc.nextLine();
-                    Contact newContact = new Contact(contactName, phoneNumber);
-                    Files.write(
-                            filepath,
-                            List.of(newContact.getName() + " | " + newContact.getPhoneNumber()),
-                            StandardOpenOption.APPEND
-                    );
-                    System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
-                    userInput = sc.next();
-                    response = userInput.equalsIgnoreCase("y") || userInput.equals("yes");
-                }
-                case "3" -> {
-                    sc.nextLine();
-                    System.out.println("Search contact by name or phone number");
-                    String searched = sc.nextLine();
-                    List<String> searchContacts = Files.readAllLines(filepath);
-                    for (String contact : searchContacts) {
-                        if (contact.contains(searched) || contact.toLowerCase().contains(searched)) {
-                            System.out.println("Contact is: " + contact);
+                menu();
+                String input = sc.next();
+                switch (input) {
+                    case "1" -> {
+                        List<String> allContacts = Files.readAllLines(filepath);
+                        System.out.println("Name | Phone Number\n-------------------");
+                        for (String contact : allContacts) {
+                            System.out.println(contact);
                         }
                     }
-                    System.out.println("\nDo you want to continue?\nEnter yes or no: (y/n)");
-                    userInput = sc.next();
-                    response = userInput.equalsIgnoreCase("y") || userInput.equals("yes");
-                }
-                case "4" -> {
-                    sc.nextLine();
-                    System.out.println("Search contact by name or phone number to delete");
-                    String deleted = sc.nextLine();
-                    List<String> deletedContacts = Files.readAllLines(filepath);
-                    for (String contact : deletedContacts) {
-                        if (contact.contains(deleted) || contact.toLowerCase().contains(deleted)) {
-                            System.out.println("Deleted contact is: " + contact);
-                            deletedContacts.remove(contact);
-                            break;
+                    case "2" -> {
+                        sc.nextLine();
+                        System.out.println("What is the contact's name?");
+                        String contactName = sc.nextLine();
+                        System.out.println("What is the contact's phone number?");
+                        String phoneNumber = sc.nextLine();
+                        Contact newContact = new Contact(contactName, phoneNumber);
+                        Files.write(
+                                filepath,
+                                List.of(newContact.getName() + " | " + newContact.getPhoneNumber()),
+                                StandardOpenOption.APPEND
+                        );
+                    }
+                    case "3" -> {
+                        sc.nextLine();
+                        System.out.println("Search contact by name or phone number");
+                        String searched = sc.nextLine();
+                        List<String> searchContacts = Files.readAllLines(filepath);
+                        for (String contact : searchContacts) {
+                            if (contact.contains(searched) || contact.toLowerCase().contains(searched)) {
+                                System.out.println("Contact is: " + contact);
+                            }
                         }
                     }
-                    Files.write(filepath, deletedContacts);
+                    case "4" -> {
+                        sc.nextLine();
+                        System.out.println("Search contact by name or phone number to delete");
+                        String deleted = sc.nextLine();
+                        List<String> deletedContacts = Files.readAllLines(filepath);
+                        for (String contact : deletedContacts) {
+                            if (contact.contains(deleted) || contact.toLowerCase().contains(deleted)) {
+                                System.out.println("Deleted contact is: " + contact);
+                                deletedContacts.remove(contact);
+                                break;
+                            }
+                        }
+                        Files.write(filepath, deletedContacts);
+                    }
+                    case "5" -> {
+                        System.out.println("Thanks for stopping by...");
+                        response = false;
+                    }
+                    default -> System.out.println("Enter a number 1 through 5\n");
+                }
+                if (response) {
                     System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
-                    userInput = sc.next();
+                    String userInput = sc.next();
                     response = userInput.equalsIgnoreCase("y") || userInput.equals("yes");
                 }
-                case "5" -> {
-                    System.out.println("Thanks for stopping by...");
-                    response = false;
-                }
-                default -> System.out.println("Enter a number 1 through 5\n");
-
-            }
-    }
+        }
     }
 
     public static void menu() {
