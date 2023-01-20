@@ -79,11 +79,6 @@ public class ContactsApp {
                     }
                     default -> System.out.println("Enter a number 1 through 5\n");
                 }
-                if (response) {
-                    System.out.println("Do you want to continue?\nEnter yes or no: (y/n)");
-                    String userInput = sc.next();
-                    response = userInput.equalsIgnoreCase("y") || userInput.equals("yes");
-                }
         }
     }
 
